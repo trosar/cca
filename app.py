@@ -38,7 +38,7 @@ def makeWebhookResult(req):
     rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " dress&format=JSON")
     jdata = json.loads(rq.text)
 
-    speech = "I found " + jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"] + " matching " + color + " dresses"
+    speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " matching " + color + " dresses"
 
     print("Response:")
     print(speech)
