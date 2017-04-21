@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import requests
 import urllib
 import json
 import os
@@ -28,15 +29,16 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "shipping.cost":
+    if req.get("result").get("action") != "search.items":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
-    zone = parameters.get("shipping-zone")
+    color = parameters.get("color")
 
-    cost = {'Europe':100, 'North America':200, 'South America':300, 'Asia':400, 'Africa':500}
+    rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " dress&format=JSON")
+    jdata = json.loads(rq.text)
 
-    speech = "The cost of shipping to " + zone + " is " + str(cost[zone]) + " euros."
+    speech = "I found " + jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"] + " matching " + color + " dresses"
 
     print("Response:")
     print(speech)
@@ -46,7 +48,7 @@ def makeWebhookResult(req):
         "displayText": speech,
         #"data": {},
         # "contextOut": [],
-        "source": "apiai-onlinestore-shipping"
+        "source": "apiai-onlinestore-search"
     }
 
 
