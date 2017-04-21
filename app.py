@@ -34,11 +34,12 @@ def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     color = parameters.get("color")
+    cat = parameters.get("catalog-category")
 
-    rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " dress&format=JSON")
+    rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
     jdata = json.loads(rq.text)
 
-    speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " matching " + color + " dresses"
+    speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
 
     print("Response:")
     print(speech)
