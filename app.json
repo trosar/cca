@@ -1,7 +1,7 @@
 {
-  "name": "API.AI Shipping Costs Webhook",
-  "description": "API.AI Shipping Costs Webhook Sapmple",
-  "repository": "https://github.com/svet4/shipping-costs-sample",
+  "name": "API.AI Call Center Agent Webhook",
+  "description": "API.AI Call Center Agent",
+  "repository": "https://github.com/trosar/cca",
   "logo": "http://xvir.github.io/img/apiai.png",
   "keywords": ["api.ai", "natural language"]
 }
