@@ -52,10 +52,10 @@ def makeWebhookResult(req):
 		matchObj = re.match( r'.*<span class="mar-status">(.*?)</span>.*', rq.text, re.M|re.I)
 		status = "Not available"
 		if matchObj:
-		   status = matchObj.group(1)
-		   print "matchObj.group(1) : ", matchObj.group(1)
+			status = matchObj.group(1)
+			print "matchObj.group(1) : ", matchObj.group(1)
 		else:
-		   print "No match!!"
+			print "No match!!"
 		
 		speech = "Order status is " + status
 
