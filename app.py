@@ -39,10 +39,8 @@ def makeWebhookResult(req):
 
 		rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
 		jdata = json.loads(rq.text)
-
 		speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
-
-    elif req.get("result").get("action") == "search.items":
+    elif req.get("result").get("action") == "some.else":
 		result = req.get("result")
 		parameters = result.get("parameters")
 		zipcode = parameters.get("zipcode")
@@ -56,12 +54,9 @@ def makeWebhookResult(req):
 			print "matchObj.group(1) : ", matchObj.group(1)
 		else:
 			print "No match!!"
-		
 		speech = "Order status is " + status
-
 	else:
 		return{}
-
 	print("Response:")
 	print(speech)
     return {
