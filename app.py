@@ -48,6 +48,9 @@ def makeWebhookResult(req):
         
         rq = requests.get("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp?orderNum=" + ordernum + "&billingZip=" + zipcode + "&Action=fetchODDetails")
         #matchObj = re.match( r'.*<span class="mar-status">(.*?)<\/span>.*', rq.text, re.M|re.I)
+        matchObj = rr.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        #print rq.text
+        #matchObj = re.match( r'.*<span class="mar-status">(.*?)<\/span>.*', rq.text, re.M|re.I)
         matchObj = r.text[r.text.find("mar-status")+12:r.text.find("<", r.text.find("mar-status"))]
         #print rq.text
         status = "Not available"
