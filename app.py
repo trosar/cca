@@ -49,6 +49,7 @@ def makeWebhookResult(req):
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': '" + ordernum + "', 'billingZip': '" + zipcode + "', 'Action': 'fetchODDetails'})
         #print rq.text
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        print "Matched: " + matchObj
         if len(matchObj) < 50:
             status = matchObj
             print "matchObj : ", matchObj
