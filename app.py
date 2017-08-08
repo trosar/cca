@@ -46,15 +46,14 @@ def makeWebhookResult(req):
         zipcode = parameters.get("zipcode")
         ordernum = parameters.get("order-number")
         
-        rq = requests.get("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp?orderNum=" + ordernum + "&billingZip=" + zipcode + "&Action=fetchODDetails")
-        #matchObj = re.match( r'.*<span class="mar-status">(.*?)<\/span>.*', rq.text, re.M|re.I)
-        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': '" + ordernum + "', 'billingZip': '" + zipcode + "', 'Action': 'fetchODDetails'})
         #print rq.text
-        status = "Not available"
+        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
         if len(matchObj) < 50:
             status = matchObj
             print "matchObj : ", matchObj
         else:
+            status = "Not available"
             print "No match!!"
         speech = "Order status is " + status
     else:
