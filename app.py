@@ -14,6 +14,23 @@ from flask import make_response
 # Flask app should start in global layout
 app = Flask(__name__)
 
+@app.route('/alexa', methods=['POST'])
+def webhook():
+    req = request.get_json(silent=True, force=True)
+
+    print("Request:")
+    print(json.dumps(req, indent=4))
+
+    res = {
+        "speech": "Hello There",
+        "displayText": "Hi World",
+        #"data": {},
+        # "contextOut": [],
+        "source": "alexa-onlinestore-search"
+    }
+
+    res = json.dumps(res, indent=4)
+    print(res)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
