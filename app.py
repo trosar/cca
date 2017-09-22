@@ -15,7 +15,7 @@ from flask import make_response
 app = Flask(__name__)
 
 @app.route('/alexa', methods=['POST'])
-def webhook():
+def alexa():
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
