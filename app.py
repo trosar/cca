@@ -75,7 +75,7 @@ def makeWebhookResult(req):
         else:
             status = "Not available"
             print "No match!!"
-        speech = "Order status is " + status + ". Thanks for visiting us today"
+        speech = "Order status is " + status + ". Thank you for visiting us today"
     else:
         return{}
     print("Response:")
