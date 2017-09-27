@@ -14,27 +14,6 @@ from flask import make_response
 # Flask app should start in global layout
 app = Flask(__name__)
 
-@app.route('/alexa', methods=['POST'])
-def alexa():
-    req = request.get_json(silent=True, force=True)
-
-    print("Request:")
-    print(json.dumps(req, indent=4))
-
-    res = {
-        "speech": "Hello There",
-        "displayText": "Hi World",
-        #"data": {},
-        # "contextOut": [],
-        "source": "alexa-onlinestore-search"
-    }
-
-    res = json.dumps(res, indent=4)
-    print(res)
-    r = make_response(res)
-    r.headers['Content-Type'] = 'application/json'
-    return r
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
@@ -51,7 +30,7 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") == "search.items":
+    if req.get("result").get("action") == "browse.search.products":
         result = req.get("result")
         parameters = result.get("parameters")
         color = parameters.get("color")
@@ -60,7 +39,7 @@ def makeWebhookResult(req):
         rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
         jdata = json.loads(rq.text)
         speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
-    elif req.get("result").get("action") == "some.else":
+    elif req.get("result").get("action") == "checkout.order.status":
         result = req.get("result")
         parameters = result.get("parameters")
         zipcode = parameters.get("zipcode")
