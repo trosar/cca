@@ -80,14 +80,35 @@ def makeWebhookResult(req):
         return{}
     print("Response:")
     print(speech)
-    return {
-        "speech": speech,
-        "displayText": speech,
-        #"data": {},
-        # "contextOut": [],
-        "source": "apiai-onlinestore-search"
-    }
-
+    if req.get("originalRequest").get("source").get == "facebook":
+        return {
+            "data": {
+                "facebook": {
+                    "text": "Pick a color:",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "Red",
+                            "payload": "red"
+                        },
+                        {
+                            "content_type": "text",
+                            "title": "Green",
+                            "payload": "green"
+                        }
+                    ]
+                }
+            }
+        }
+    else:
+        return {
+            "speech": speech,
+            "displayText": speech,
+            #"data": {},
+            # "contextOut": [],
+            "source": "apiai-onlinestore-search"
+        }
+        
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
