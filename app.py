@@ -80,7 +80,7 @@ def makeWebhookResult(req):
         return{}
     print("Response:")
     print(speech)
-    if req.get("originalRequest").get("source").get == "facebook":
+    if req.get("originalRequest").get("source") == "facebook":
         return {
             "data": {
                 "facebook": {
