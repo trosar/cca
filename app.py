@@ -59,7 +59,7 @@ def makeWebhookResult(req):
         return{}
     print("Response:")
     print(speech)
-    if req.get("originalRequest").get("source") == "facebook":
+    if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
         return {
             "data": {
                 "facebook": {
