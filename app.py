@@ -35,10 +35,30 @@ def makeWebhookResult(req):
         parameters = result.get("parameters")
         color = parameters.get("color")
         cat = parameters.get("catalog-category")
-
-        rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
-        jdata = json.loads(rq.text)
-        speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
+        if ((color is None) and (req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            return {
+                "data": {
+                    "facebook": {
+                        "text": "Pick a color:",
+                        "quick_replies": [
+                            {
+                                "content_type": "text",
+                                "title": "Red",
+                                "payload": "red"
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Green",
+                                "payload": "green"
+                            }
+                        ]
+                    }
+                }
+            }
+        else:
+            rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
+            jdata = json.loads(rq.text)
+            speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
     elif req.get("result").get("action") == "promos":
         result = req.get("result")
         headers = {'HOST': 'sit.catherines.com'}
@@ -71,34 +91,13 @@ def makeWebhookResult(req):
         return{}
     print("Response:")
     print(speech)
-    if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
-        return {
-            "data": {
-                "facebook": {
-                    "text": "Pick a color:",
-                    "quick_replies": [
-                        {
-                            "content_type": "text",
-                            "title": "Red",
-                            "payload": "red"
-                        },
-                        {
-                            "content_type": "text",
-                            "title": "Green",
-                            "payload": "green"
-                        }
-                    ]
-                }
-            }
-        }
-    else:
-        return {
-            "speech": speech,
-            "displayText": speech,
-            #"data": {},
-            # "contextOut": [],
-            "source": "apiai-onlinestore-search"
-        }
+    return {
+        "speech": speech,
+        "displayText": speech,
+        #"data": {},
+        # "contextOut": [],
+        "source": "apiai-onlinestore-search"
+    }
         
 
 if __name__ == '__main__':
