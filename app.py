@@ -63,7 +63,7 @@ def makeWebhookResult(req):
             status = "Not available"
             print ("No match!!")
             
-        if status == "SHIPPED"
+        if status == 'Shipped'
             speech = "Order status is " + status + ". You'll receive the package on Sept 30, 2017."
         else:
             speech = "Order status is " + status + ".
