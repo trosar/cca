@@ -57,7 +57,7 @@ def makeWebhookResult(req):
             
         if status == "SHIPPED"
             speech = "Order status is " + status + ". You'll receive the package on Sept 30, 2017."
-        else
+        else:
             speech = "Order status is " + status + ".
     else:
         return{}
