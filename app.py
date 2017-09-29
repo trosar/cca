@@ -35,7 +35,7 @@ def makeWebhookResult(req):
         parameters = result.get("parameters")
         color = parameters.get("color")
         cat = parameters.get("catalog-category")
-        if ((color is None) and (req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+        if (((color is None) or (color is "")) and (req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
                 "data": {
                     "facebook": {
