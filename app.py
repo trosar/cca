@@ -61,7 +61,7 @@ def makeWebhookResult(req):
             print ("matchObj : ", matchObj)
         else:
             status = "Not available"
-            print "No match!!"
+            print ("No match!!")
             
         if status == "SHIPPED"
             speech = "Order status is " + status + ". You'll receive the package on Sept 30, 2017."
@@ -104,6 +104,6 @@ def makeWebhookResult(req):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print "Starting app on port %d" % port
+    print ("Starting app on port %d" % port)
 
     app.run(debug=True, port=port, host='0.0.0.0')
