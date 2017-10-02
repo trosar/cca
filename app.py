@@ -99,18 +99,18 @@ def makeWebhookResult(req):
         result = req.get("result")
         parameters = result.get("parameters")
         zipcode = parameters.get("zipcode")
-        ordernum = 'OJTW022967052'
+        email = parameters.get("email")
+        ordertime = parameters.get("order-time")
         
-        print ("Zipcode is ", zipcode)
-        
+        #TODO - Need to put here the API to get order number using email, zipcode and the timeframe
         if zipcode == '20166':
             ordernum = 'OJTW022967052'
         elif zipcode == '37122':
             ordernum = 'OJTW027567667'
         elif zipcode == '19148':
             ordernum = 'OJTW027678055'
-            
-        print ("Order number is ", ordernum)
+        else
+            ordernum = 'OJTW022967052'
             
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
