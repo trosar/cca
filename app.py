@@ -88,7 +88,7 @@ def makeWebhookResult(req):
             print ("No match!!")
             
         if status == 'Shipped':
-            speech = "Order status is " + status + ". You shall receive the package by " + DateTime.strptime(date, '%m/%d/%Y') + "."
+            speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
         else:
             speech = "Order status is " + status + "."
     else:
