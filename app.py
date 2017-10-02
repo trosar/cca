@@ -9,6 +9,7 @@ import re
 from flask import Flask
 from flask import request
 from flask import make_response
+from datetime import datetime as DateTime, timedelta as TimeDelta
 
 
 # Flask app should start in global layout
@@ -76,15 +77,17 @@ def makeWebhookResult(req):
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchDate = rq.text[rq.text.find("mar-date")+12:rq.text.find("<", rq.text.find("mar-date"))]
         if len(matchObj) < 50:
             status = matchObj
+            date = matchDate + TimeDelta(days=5)
             print ("matchObj : ", matchObj)
         else:
             status = "Not available"
             print ("No match!!")
             
         if status == 'Shipped':
-            speech = "Order status is " + status + ". You'll receive the package on Sept 30, 2017."
+            speech = "Order status is " + status + ". You shall receive the package by " + date + "."
         else:
             speech = "Order status is " + status + "."
     else:
