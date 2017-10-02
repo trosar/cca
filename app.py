@@ -77,12 +77,12 @@ def makeWebhookResult(req):
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
-        matchDate = rq.text[rq.text.find("mar-date")+12:rq.text.find("<", rq.text.find("mar-date"))]
+        matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
         if len(matchObj) < 50:
-            status = matchObj
-            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
             print ("matchObj : ", matchObj)
             print ("matchDate : ", matchDate)
+            status = matchObj
+            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
         else:
             status = "Not available"
             print ("No match!!")
