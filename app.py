@@ -84,7 +84,7 @@ def makeWebhookResult(req):
             status = matchObj
             date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
         else:
-            status = "I couldn’t find that order. Either the number or the zipcode is not correct."
+            status = "I couldn't find that order. Either the number or the zipcode is not correct."
             print ("No match!!")
             
         if status == 'Shipped':
@@ -122,7 +122,7 @@ def makeWebhookResult(req):
             status = matchObj
             date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
         else:
-            status = "I couldn’t find that order. Either the number or the zipcode is not correct."
+            status = "I couldn't find that order. Either the number or the zipcode is not correct."
             print ("No match!!")
             
         if status == 'Shipped':
