@@ -84,11 +84,11 @@ def makeWebhookResult(req):
             status = matchObj
             date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
         else:
-            status = "Not available"
+            status = "not available"
             print ("No match!!")
             
         if status == 'Shipped':
-            speech = "Order status is " + status + ". You shall receive the package by " + date + "."
+            speech = "Order status is " + status + ". You shall receive the package by " + DateTime.strptime(date, '%m/%d/%Y') + "."
         else:
             speech = "Order status is " + status + "."
     else:
