@@ -95,6 +95,40 @@ def makeWebhookResult(req):
             speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
         else:
             speech = status
+    elif req.get("result").get("action") == "Order_Status_no":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        zipcode = parameters.get("zipcode")
+        #ordernum = parameters.get("order-number")
+        
+        if zipcode = '20166':
+            ordernum = 'OJTW022967052'
+        elif zipcode = '37122':
+            ordernum = 'OJTW027567667'
+        elif zipcode = '19148':
+            ordernum = 'OJTW027678055'
+            
+        rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
+        #print rq.text
+        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        if len(matchObj) < 50:
+            print ("matchObj : ", matchObj)
+            print ("matchDate : ", matchDate)
+            status = matchObj
+            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
+        else:
+            status = "I couldn’t find that order. Either the number or the zipcode is not correct."
+            print ("No match!!")
+            
+        if status == 'Shipped':
+            speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
+        elif status == 'Canceled':
+            speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+        elif status == 'Processing':
+            speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
+        else:
+            speech = status
     else:
         return{}
     print("Response:")
