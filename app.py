@@ -109,7 +109,7 @@ def makeWebhookResult(req):
             ordernum = 'OJTW027567667'
         elif zipcode == '19148':
             ordernum = 'OJTW027678055'
-        else
+        else:
             ordernum = 'OJTW022967052'
             
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
