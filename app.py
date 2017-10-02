@@ -80,7 +80,7 @@ def makeWebhookResult(req):
         matchDate = rq.text[rq.text.find("mar-date")+12:rq.text.find("<", rq.text.find("mar-date"))]
         if len(matchObj) < 50:
             status = matchObj
-            date = DateTime.strptime(matchDate, '%m-%d-%Y') + TimeDelta(days=5)
+            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
             print ("matchObj : ", matchObj)
             print ("matchDate : ", matchDate)
         else:
