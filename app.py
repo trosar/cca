@@ -116,23 +116,40 @@ def makeWebhookResult(req):
         #print rq.text
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        date = DateTime.now()
+        present = DateTime.now()
+        
         if len(matchObj) < 50:
             print ("matchObj : ", matchObj)
             print ("matchDate : ", matchDate)
             status = matchObj
             date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
         else:
-            status = "I couldn't find that order. Either the number or the zipcode is not correct."
+            status = "I couldn't find that order. Either the order number or the zipcode is not correct."
             print ("No match!!")
-            
-        if status == 'Shipped':
-            speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
-        elif status == 'Canceled':
-            speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
-        elif status == 'Processing':
-            speech = "Order status is " + status + ". You shall receive the package by " + date.strftime('%m/%d/%Y') + "."
+        
+        if date >= present
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
         else:
-            speech = status
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
     else:
         return{}
     print("Response:")
