@@ -78,12 +78,12 @@ def makeWebhookResult(req):
           {
             "title": "Classic T-Shirt Collection",
             "subtitle": "See all our colors",
-            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+            "image_url": "",          
             "buttons": [
               {
                 "title": "View",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                "url": "",
                 "webview_height_ratio": "tall",
                 "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
               }
@@ -94,7 +94,7 @@ def makeWebhookResult(req):
             "subtitle": "See all our colors",
             "default_action": {
               "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+              "url": "",
               "webview_height_ratio": "tall",
               "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
             }
@@ -105,7 +105,7 @@ def makeWebhookResult(req):
             "subtitle": "100% Cotton, 200% Comfortable",
             "default_action": {
               "type": "web_url",
-              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+              "url": "",
               "webview_height_ratio": "tall",
               "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
             },
@@ -113,7 +113,7 @@ def makeWebhookResult(req):
               {
                 "title": "Shop Now",
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                "url": "",
                 "webview_height_ratio": "tall",
                 "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
               }
