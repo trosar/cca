@@ -65,9 +65,81 @@ def makeWebhookResult(req):
         headers = {'HOST': 'sit.catherines.com'}
         rq = requests.get("https://23.34.4.174/static/promo_01?format=json", headers=headers, verify=False)
         jdata = json.loads(rq.text)
-        speech = "Promos are "
-        for mc in jdata["MainContent"]:
-            speech = speech + str(mc["freeFormContent"]) + "... "
+        if (((result is None) or (result is "")) and (req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            return {
+                "data": {
+                    "facebook": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "top_element_style": "compact",
+        "elements": [
+          {
+            "title": "Classic T-Shirt Collection",
+            "subtitle": "See all our colors",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",          
+            "buttons": [
+              {
+                "title": "View",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]
+          },
+          {
+            "title": "Classic White T-Shirt",
+            "subtitle": "See all our colors",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            }
+          },
+          {
+            "title": "Classic Blue T-Shirt",
+            "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            },
+            "buttons": [
+              {
+                "title": "Shop Now",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"            
+              }
+            ]        
+          }
+        ],
+         "buttons": [
+          {
+            "title": "View More",
+            "type": "postback",
+            "payload": "payload"            
+          }
+        ]  
+      }
+    }
+  }
+                }
+            }
+        else:    
+            speech = "Promos are "
+            for mc in jdata["MainContent"]:
+                speech = speech + str(mc["freeFormContent"]) + "... "
     elif ((req.get("result").get("action") == "Order_Status_yes") or (req.get("result").get("action") == "checkout.order.status")):
         result = req.get("result")
         parameters = result.get("parameters")
