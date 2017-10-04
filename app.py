@@ -75,21 +75,21 @@ def makeWebhookResult(req):
                             "top_element_style": "compact",
                             "elements": [{
                                 "title": "Active Promotions"
+                            },
+                            {
+                                "title": "Classic White T-Shirt",
+                                "subtitle": "See all our colors"
+                            },
+                            {
+                                "title": "Classic Blue T-Shirt",
+                                "subtitle": "100% Cotton, 200% Comfortable"
+                            }],
+                            "buttons": [{
+                                "title": "View More",
+                                "type": "postback",
+                                "payload": "payload"
                             }]
-                        },
-                        {
-                            "title": "Classic White T-Shirt",
-                            "subtitle": "See all our colors"
-                        },
-                        {
-                            "title": "Classic Blue T-Shirt",
-                            "subtitle": "100% Cotton, 200% Comfortable"
-                        }],
-                        "buttons": [{
-                            "title": "View More",
-                            "type": "postback",
-                            "payload": "payload"
-                        }]
+                        }
                     }
                 }
             }
