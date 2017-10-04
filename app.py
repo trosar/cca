@@ -128,7 +128,7 @@ def makeWebhookResult(req):
             status = "I couldn't find that order. Either the order number or the zipcode is not correct."
             print ("No match!!")
         
-        if date >= present
+        if date >= present:
             if status == 'Shipped':
                 speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
             elif status == 'Partially Shipped':
