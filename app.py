@@ -67,31 +67,49 @@ def makeWebhookResult(req):
         jdata = json.loads(rq.text)
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return{
-                "message": {
-                    "attachment": {
-                        "type": "template",
-                        "payload": {
-                            "template_type": "list",
-                            "top_element_style": "compact",
-                            "elements": [{
-                                "title": "Active Promotions"
-                            },
-                            {
-                                "title": "Classic White T-Shirt",
-                                "subtitle": "See all our colors"
-                            },
-                            {
-                                "title": "Classic Blue T-Shirt",
-                                "subtitle": "100% Cotton, 200% Comfortable"
-                            }],
-                            "buttons": [{
-                                "title": "View More",
-                                "type": "postback",
-                                "payload": "payload"
-                            }]
-                        }
-                    }
-                }
+"facebook": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "elements": [
+          {
+            "title": "Classic T-Shirt Collection",
+            "image_url": "https://xvir.github.io/img/apiai.png",
+            "subtitle": "See all our colors",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://xvir.github.io/"
+            
+            },
+            "buttons": [
+              {
+                "title": "View",
+                "type": "web_url",
+                "url": "https://xvir.github.io/"
+              }
+            ]
+          },
+          {
+            "title": "Classic T-Shirt Collection",
+            "image_url": "https://xvir.github.io/img/apiai.png",
+            "subtitle": "See all our colors",
+            "default_action": {
+              "type": "web_url",
+              "url": "http://xvir.github.io/"
+            },
+            "buttons": [
+              {
+                "title": "View",
+                "type": "web_url",
+                "url": "https://xvir.github.io/"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }                
             }
         else:    
             speech = "Promos are "
