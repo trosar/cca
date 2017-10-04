@@ -67,6 +67,7 @@ def makeWebhookResult(req):
         jdata = json.loads(rq.text)
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return{
+                "data": {
 "facebook": {
     "attachment": {
       "type": "template",
@@ -109,7 +110,8 @@ def makeWebhookResult(req):
         ]
       }
     }
-  }                
+  }
+                }
             }
         else:    
             speech = "Promos are "
