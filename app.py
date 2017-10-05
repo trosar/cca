@@ -76,12 +76,36 @@ def makeWebhookResult(req):
                             "payload": {
                                 "template_type": "list",
                                 "elements": [{
+                                    "title": "LaneBryant Active Promotions",
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "http://www.lanebryant.com/"
+                                    }
+                                },
+                                {
                                     "title": str(jdata["MainContent"][0]["freeFormContent"]),
-                                    "image_url": "https://xvir.github.io/img/apiai.png"
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "http://www.lanebryant.com/"
+                                    }
                                 },
                                 {
                                     "title": str(jdata["MainContent"][1]["freeFormContent"]),
-                                    "image_url": "https://xvir.github.io/img/apiai.png"
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "http://www.lanebryant.com/"
+                                    }
+                                },
+                                {
+                                    "title": str(jdata["MainContent"][2]["freeFormContent"]),
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "www.lanebryant.com"
+                                    }
                                 }]
                             }
                         }
