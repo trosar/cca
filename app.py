@@ -76,7 +76,7 @@ def makeWebhookResult(req):
         "elements": [
           {
             "title": "Promotions",
-            "image_url": "https://xvir.github.io/img/apiai.png",
+            "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
             "subtitle": "Lanebryant Online Promotions",
             "default_action": {
               "type": "web_url",
@@ -91,21 +91,23 @@ def makeWebhookResult(req):
               }
             ]
           },
-          {
-            "title": jdata,
-            "image_url": "https://xvir.github.io/img/apiai.png",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://www.lanebryant.com/"
-            },
-            "buttons": [
-              {
-                "title": "View",
-                "type": "web_url",
-                "url": "https://www.lanebryant.com/"
-              }
-            ]
-          }
+           for mc in jdata["MainContent"]:
+               {
+                   "title": str(mc["freeFormContent"]),
+                   "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
+                   "default_action": {
+                   "type": "web_url",
+                   "url": "https://www.lanebryant.com/"
+                   },
+                   "buttons": [
+                       {
+                           "title": "View",
+                           "type": "web_url",
+                           "url": "https://www.lanebryant.com/"
+                       }
+                   ]
+               }
+            
         ]
       }
     }
