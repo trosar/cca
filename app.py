@@ -74,7 +74,7 @@ def makeWebhookResult(req):
                         "attachment": {
                             "type": "template",
                             "payload": {
-                                "template_type": "list",
+                                "template_type": "generic",
                                 "elements": [{
                                     "title": str(jdata["MainContent"][0]["freeFormContent"])
                                 },
