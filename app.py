@@ -5,8 +5,7 @@ import urllib
 import json
 import os
 import re
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 from flask import Flask
 from flask import request
