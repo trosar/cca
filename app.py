@@ -75,35 +75,34 @@ def makeWebhookResult(req):
         "template_type": "list",
         "elements": [
           {
-            "title": "Classic T-Shirt Collection",
+            "title": "Promotions",
             "image_url": "https://xvir.github.io/img/apiai.png",
-            "subtitle": "See all our colors",
+            "subtitle": "Lanebryant Online Promotions",
             "default_action": {
               "type": "web_url",
-              "url": "https://xvir.github.io/"
+              "url": "https://www.lanebryant.com/"
             
             },
             "buttons": [
               {
                 "title": "View",
                 "type": "web_url",
-                "url": "https://xvir.github.io/"
+                "url": "https://www.lanebryant.com/"
               }
             ]
           },
           {
-            "title": "Classic T-Shirt Collection",
+            "title": jdata,
             "image_url": "https://xvir.github.io/img/apiai.png",
-            "subtitle": "See all our colors",
             "default_action": {
               "type": "web_url",
-              "url": "http://xvir.github.io/"
+              "url": "https://www.lanebryant.com/"
             },
             "buttons": [
               {
                 "title": "View",
                 "type": "web_url",
-                "url": "https://xvir.github.io/"
+                "url": "https://www.lanebryant.com/"
               }
             ]
           }
