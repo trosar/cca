@@ -86,7 +86,7 @@ def makeWebhookResult(req):
                                     "buttons": [{
                                         "title": "View",
                                         "type": "web_url",
-                                        "url": "https://xvir.github.io/"
+                                        "url": "https://www.lanebryant.com/"
                                     }]
                                 },
                                 {
@@ -95,7 +95,7 @@ def makeWebhookResult(req):
                                     "subtitle": "See all our colors",
                                     "default_action": {
                                         "type": "web_url",
-                                        "url": "http://xvir.github.io/"
+                                        "url": "https://www.lanebryant.com/"
                                     },
                                     "buttons": [{
                                         "title": "View",
