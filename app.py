@@ -74,9 +74,8 @@ def makeWebhookResult(req):
                             "payload": {
                                 "template_type": "list",
                                 "elements":
-								[
-								{
-                                    "title": Active Promos,
+				[{
+                                    "title": "Active Promos",
                                     "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
                                     "default_action": {
                                         "type": "web_url",
@@ -87,8 +86,7 @@ def makeWebhookResult(req):
                                         "type": "web_url",
                                         "url": "https://www.lanebryant.com/"
                                     }]
-                                }
-								]
+                                }]
                             }
                         }
                     }
