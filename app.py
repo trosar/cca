@@ -76,10 +76,10 @@ def makeWebhookResult(req):
                             "payload": {
                                 "template_type": "generic",
                                 "elements": [{
-                                    "title": str(jdata["MainContent"][0]["freeFormContent"])
+                                    "title": "Try any Lane Bryant bottom (excluding LIVI Active) in any Lane Bryant Store and receive $10 off a minimum purchase of $10."
                                 },
                                 {
-                                    "title": str(jdata["MainContent"][1]["freeFormContent"])
+                                    "title": "TEE SHOP BOGO 50% OFF"
                                 }]
                             }
                         }
