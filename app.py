@@ -74,12 +74,34 @@ def makeWebhookResult(req):
                         "attachment": {
                             "type": "template",
                             "payload": {
-                                "template_type": "generic",
+                                "template_type": "list",
                                 "elements": [{
-                                    "title": "Try any Lane Bryant bottom (excluding LIVI Active) in any Lane Bryant Store and receive $10 off a minimum purchase of $10."
+                                    "title": str(jdata["MainContent"][0]["freeFormContent"]),
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "subtitle": "See all our colors",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://xvir.github.io/"
+                                    },
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": "https://xvir.github.io/"
+                                    }]
                                 },
                                 {
-                                    "title": "TEE SHOP BOGO 50% OFF"
+                                    "title": str(jdata["MainContent"][1]["freeFormContent"]),
+                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "subtitle": "See all our colors",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "http://xvir.github.io/"
+                                    },
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": "https://xvir.github.io/"
+                                    }]
                                 }]
                             }
                         }
