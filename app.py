@@ -77,7 +77,7 @@ def makeWebhookResult(req):
                                 "template_type": "list",
                                 "elements": [{
                                     "title": str(jdata["MainContent"][0]["freeFormContent"]),
-                                    "image_url": "https://xvir.github.io/img/apiai.png",
+                                    "image_url": "",
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "https://www.lanebryant.com/"
@@ -89,12 +89,7 @@ def makeWebhookResult(req):
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "https://www.lanebryant.com/"
-                                    },
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": "https://www.lanebryant.com/"
-                                    }]
+                                    }
                                 }]
                             }
                         }
