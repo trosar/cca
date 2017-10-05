@@ -65,6 +65,9 @@ def makeWebhookResult(req):
         headers = {'HOST': 'sit.catherines.com'}
         rq = requests.get("https://23.34.4.174/static/promo_01?format=json", headers=headers, verify=False)
         jdata = json.loads(rq.text)
+        print (jdata)
+        print (jdata["MainContent"][0]["freeFormContent"][0])
+        
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return{
                 "data": {
