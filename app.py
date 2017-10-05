@@ -65,7 +65,6 @@ def makeWebhookResult(req):
         headers = {'HOST': 'sit.catherines.com'}
         rq = requests.get("https://23.34.4.174/static/promo_01?format=json", headers=headers, verify=False)
         jdata = json.loads(rq.text)
-        print (jdata["MainContent"][0]["freeFormContent"])
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return{
@@ -76,20 +75,10 @@ def makeWebhookResult(req):
                             "payload": {
                                 "template_type": "list",
                                 "elements": [{
-                                    "title": str(jdata["MainContent"][0]["freeFormContent"]),
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": "https://www.lanebryant.com/"
-                                    }]
+                                    "title": str(jdata["MainContent"][0]["freeFormContent"])
                                 },
                                 {
-                                    "title": str(jdata["MainContent"][1]["freeFormContent"]),
-                                    "buttons": [{
-                                        "title": "View",
-                                        "type": "web_url",
-                                        "url": "https://www.lanebryant.com/"
-                                    }]
+                                    "title": str(jdata["MainContent"][1]["freeFormContent"])
                                 }]
                             }
                         }
