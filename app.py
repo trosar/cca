@@ -68,50 +68,30 @@ def makeWebhookResult(req):
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return{
                 "data": {
-"facebook": {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "list",
-        "elements": [
-          {
-            "title": "Promotions",
-            "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
-            "subtitle": "Lanebryant Online Promotions",
-            "default_action": {
-              "type": "web_url",
-              "url": "https://www.lanebryant.com/"
-            
-            },
-            "buttons": [
-              {
-                "title": "View",
-                "type": "web_url",
-                "url": "https://www.lanebryant.com/"
-              }
-            ]
-          },
-           for mc in jdata["MainContent"]:
-               {
-                   "title": str(mc["freeFormContent"]),
-                   "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
-                   "default_action": {
-                   "type": "web_url",
-                   "url": "https://www.lanebryant.com/"
-                   },
-                   "buttons": [
-                       {
-                           "title": "View",
-                           "type": "web_url",
-                           "url": "https://www.lanebryant.com/"
-                       }
-                   ]
-               }
-            
-        ]
-      }
-    }
-  }
+                    "facebook": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "list",
+                                "elements":
+								[
+								{
+                                    "title": Active Promos,
+                                    "image_url": "https://s7d2.scene7.com/is/image/lanebryantProdATG/100517-hp-hero1",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://www.lanebryant.com/"
+                                    },
+                                    "buttons": [{
+                                        "title": "View",
+                                        "type": "web_url",
+                                        "url": "https://www.lanebryant.com/"
+                                    }]
+                                }
+								]
+                            }
+                        }
+                    }
                 }
             }
         else:    
