@@ -77,7 +77,7 @@ def makeWebhookResult(req):
                                 "template_type": "list",
                                 "elements": [{
                                     "title": "LaneBryant Active Promotions",
-                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
+                                    "image_url": "https://www.lanebryant.com/assets/images/favicon.ico",
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "http://www.lanebryant.com/"
