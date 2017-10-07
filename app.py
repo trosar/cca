@@ -85,6 +85,7 @@ def makeWebhookResult(req):
                                 },
                                 {
                                     "title": str(jdata["MainContent"][0]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "www.lanebryant.com"
@@ -92,6 +93,7 @@ def makeWebhookResult(req):
                                 },
                                 {
                                     "title": str(jdata["MainContent"][1]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "www.lanebryant.com"
@@ -99,6 +101,7 @@ def makeWebhookResult(req):
                                 },
                                 {
                                     "title": str(jdata["MainContent"][2]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
                                     "default_action": {
                                         "type": "web_url",
                                         "url": "www.lanebryant.com"
