@@ -68,11 +68,12 @@ def makeWebhookResult(req):
         jdata = json.loads(rq.text)
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
-            temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}},"
+            temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
             for mc in jdata["MainContent"]:
-                elements = elements + "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
-            #print (elements)    
+                element = ",{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
+                elements = elements + element
+            print (elements)    
             return{
                 "data": {
                     "facebook": {
@@ -87,16 +88,9 @@ def makeWebhookResult(req):
                                         "type": "web_url",
                                         "url": "http://www.lanebryant.com/"
                                     }
-                                },
+                                }
                                 elements
-                                {
-                                    "title": str("More Promotions? Click here to view"),
-                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "www.lanebryant.com"
-                                    }
-                                }]
+                                ]
                             }
                         }
                     }
