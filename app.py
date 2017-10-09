@@ -68,6 +68,10 @@ def makeWebhookResult(req):
         jdata = json.loads(rq.text)
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}},"
+            for mc in jdata["MainContent"]:
+                elements = element + "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
+            print (elements)    
             return{
                 "data": {
                     "facebook": {
