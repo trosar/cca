@@ -70,7 +70,7 @@ def makeWebhookResult(req):
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
-            count = len(jdata["MainContent"][0]["freeFormContent"])
+            count = len(jdata["MainContent"])
             print ("Count of json is:" + str(count))
             for mc in jdata["MainContent"]:
                 element = "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
