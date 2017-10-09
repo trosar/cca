@@ -79,7 +79,7 @@ def makeWebhookResult(req):
                     count = count - 1
                 elements = elements + element
             
-            json_emelents = json.loads("["+elements+"]")
+            json_elements = json.loads("["+elements+"]")
             return{
                 "data": {
                     "facebook": {
