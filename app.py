@@ -72,7 +72,7 @@ def makeWebhookResult(req):
             elements = ""
             for mc in jdata["MainContent"]:
                 elements = elements + "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
-            print (elements)    
+            #print (elements)    
             return{
                 "data": {
                     "facebook": {
@@ -88,24 +88,9 @@ def makeWebhookResult(req):
                                         "url": "http://www.lanebryant.com/"
                                     }
                                 },
+                                elements
                                 {
-                                    "title": str(jdata["MainContent"][0]["freeFormContent"]),
-                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "www.lanebryant.com"
-                                    }
-                                },
-                                {
-                                    "title": str(jdata["MainContent"][1]["freeFormContent"]),
-                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "www.lanebryant.com"
-                                    }
-                                },
-                                {
-                                    "title": str(jdata["MainContent"][2]["freeFormContent"]),
+                                    "title": str("More Promotions? Click here to view"),
                                     "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
                                     "default_action": {
                                         "type": "web_url",
