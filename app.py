@@ -73,17 +73,17 @@ def makeWebhookResult(req):
         #print (str(order_json))
         
         temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
-            elements = ""
-            count = len(order_json["cartItems"])
+        elements = ""
+        count = len(order_json["cartItems"])
             
-            for mc in order_json["cartItems"]:
-                element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
-                if(count != 1):
-                    element = element + ","
-                    count = count - 1
-                elements = elements + element
+        for mc in order_json["cartItems"]:
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
+            if(count != 1):
+                element = element + ","
+                count = count - 1
+            elements = elements + element
             
-            json_elements = json.loads("["+elements+"]")
+        json_elements = json.loads("["+elements+"]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
