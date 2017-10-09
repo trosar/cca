@@ -71,7 +71,7 @@ def makeWebhookResult(req):
             temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
             count = len(jdata["MainContent"][0]["freeFormContent"])
-            print ("Count of json is:" + count)
+            print ("Count of json is:" + str(count))
             for mc in jdata["MainContent"]:
                 element = "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
                 if(count != 1):
