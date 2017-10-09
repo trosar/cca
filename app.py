@@ -87,7 +87,7 @@ def makeWebhookResult(req):
                             "type": "template",
                             "payload": {
                                 "template_type": "list",
-                                "elements": [json_elements]
+                                "elements": json_elements
                             }
                         }
                     }
