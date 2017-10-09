@@ -70,8 +70,13 @@ def makeWebhookResult(req):
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
+            count = len(jdata["MainContent"][0]["freeFormContent"])
+            print ("Count of json is:" + count)
             for mc in jdata["MainContent"]:
-                element = ",{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
+                element = "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
+                if(count != 1):
+                    element = element + ","
+                    count = count - 1
                 elements = elements + element
             print (elements)    
             return{
@@ -88,9 +93,31 @@ def makeWebhookResult(req):
                                         "type": "web_url",
                                         "url": "http://www.lanebryant.com/"
                                     }
-                                }
-                                elements
-                                ]
+                                },
+                                {
+                                    "title": str(jdata["MainContent"][0]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "www.lanebryant.com"
+                                    }
+                                },
+                                {
+                                    "title": str(jdata["MainContent"][1]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "www.lanebryant.com"
+                                    }
+                                },
+                                {
+                                    "title": str(jdata["MainContent"][2]["freeFormContent"]),
+                                    "image_url": "https://www.lanebryant.com/assets/images/lanebryant-logo.png",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "www.lanebryant.com"
+                                    }
+                                }]
                             }
                         }
                     }
