@@ -105,7 +105,7 @@ def makeWebhookResult(req):
         
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
-        order_json = rq.text[rq.text.find("cart-json")+12:rq.text.find("<", rq.text.find("cart-json"))]
+        order_json = rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]
         print (str(order_json))
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
