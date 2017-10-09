@@ -71,14 +71,15 @@ def makeWebhookResult(req):
             temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
             count = len(jdata["MainContent"])
-            print ("Count of json is:" + str(count))
+            
             for mc in jdata["MainContent"]:
                 element = "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
                 if(count != 1):
                     element = element + ","
                     count = count - 1
                 elements = elements + element
-            print (elements)    
+            
+            json_emelents = json.loads(elements)
             return{
                 "data": {
                     "facebook": {
@@ -86,7 +87,7 @@ def makeWebhookResult(req):
                             "type": "template",
                             "payload": {
                                 "template_type": "list",
-                                "elements": [str(elements)]
+                                "elements": [json_elements]
                             }
                         }
                     }
