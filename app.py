@@ -64,8 +64,14 @@ def makeWebhookResult(req):
     elif req.get("result").get("action") == "order_status_receipt":
         result = req.get("result")
         parameters = result.get("parameters")
-        color = parameters.get("color")
-        cat = parameters.get("catalog-category")
+        zipcode = '19148'
+        ordernum = 'OJTW027678055'
+        
+        rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
+        
+        order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
+        print (str(order_json))
+        
         if (((color is None) or (color is "")) and (req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
                 "data": {
@@ -75,10 +81,9 @@ def makeWebhookResult(req):
                             "payload": {
                                 "template_type": "receipt",
                                 "recipient_name": "Stephane Crozatier",
-                                "order_number": "12345678902",
+                                "order_number": ordernum,
                                 "currency": "USD",
                                 "payment_method": "Visa 2345",
-                                "order_url": "http://petersapparel.parseapp.com/order?order_id=123456",
                                 "timestamp": "1428444852",
                                 "address": {
                                     "street_1": "1 Hacker Way",
