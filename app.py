@@ -74,9 +74,9 @@ def makeWebhookResult(req):
         
         temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
         elements = ""
-        count = len(order_json["data"][0]["cartItems"])
+        count = len(order_json[1]["cartItems"])
             
-        for mc in order_json["data"][0]["cartItems"]:
+        for mc in order_json[1]["cartItems"]:
             element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
             if(count != 1):
                 element = element + ","
