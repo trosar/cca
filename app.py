@@ -6,6 +6,7 @@ import json
 import os
 import re
 
+
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -60,14 +61,112 @@ def makeWebhookResult(req):
             rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
             jdata = json.loads(rq.text)
             speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
+    elif req.get("result").get("action") == "order_status_receipt":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        zipcode = '19148'
+        ordernum = 'OJTW027678055'
+        
+        rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
+        
+        order_json = json.loads("["+rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]+"]")
+        print (str(order_json))
+        
+        temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
+        elements = ""
+        count = len(order_json[0]["cartItems"])
+        print (count)
+            
+        for mc in order_json[0]["cartItems"]:
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
+            if(count != 1):
+                element = element + ","
+                count = count - 1
+            elements = elements + element
+            
+        json_elements = json.loads("["+elements+"]")
+        
+        if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            return {
+                "data": {
+                    "facebook": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "receipt",
+                                "recipient_name": "Stephane Crozatier",
+                                "order_number": ordernum,
+                                "currency": "USD",
+                                "payment_method": "Visa 2345",
+                                "timestamp": "1428444852",
+                                "address": {
+                                    "street_1": "1 Hacker Way",
+                                    "street_2": "",
+                                    "city": "Menlo Park",
+                                    "postal_code": "94025",
+                                    "state": "CA",
+                                    "country": "US"
+                                },
+                                "summary": {
+                                    "subtotal": 75.00,
+                                    "shipping_cost": 4.95,
+                                    "total_tax": 6.19,
+                                    "total_cost": 56.14
+                                },
+                                "adjustments": [{
+                                    "name": "New Customer Discount",
+                                    "amount": 20
+                                },
+                                {
+                                    "name": "$10 Off Coupon",
+                                    "amount": 10
+                                }],
+                                "elements": json_elements
+                            }
+                        }
+                    }
+                }
+            }
+        else:
+            rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
+            jdata = json.loads(rq.text)
+            speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products."         
     elif req.get("result").get("action") == "promos":
         result = req.get("result")
         headers = {'HOST': 'sit.catherines.com'}
         rq = requests.get("https://23.34.4.174/static/promo_01?format=json", headers=headers, verify=False)
         jdata = json.loads(rq.text)
-        speech = "Promos are "
-        for mc in jdata["MainContent"]:
-            speech = speech + str(mc["freeFormContent"]) + "... "
+        
+        if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
+            elements = ""
+            count = len(jdata["MainContent"])
+            
+            for mc in jdata["MainContent"]:
+                element = "{\"title\": " + "\"" + str(mc["freeFormContent"]) + "\"," + temp
+                if(count != 1):
+                    element = element + ","
+                    count = count - 1
+                elements = elements + element
+            
+            json_elements = json.loads("["+elements+"]")
+            return{
+                "data": {
+                    "facebook": {
+                        "attachment": {
+                            "type": "template",
+                            "payload": {
+                                "template_type": "list",
+                                "elements": json_elements
+                            }
+                        }
+                    }
+                }
+            }
+        else:    
+            speech = "Promos are "
+            for mc in jdata["MainContent"]:
+                speech = speech + str(mc["freeFormContent"]) + "... "
     elif ((req.get("result").get("action") == "Order_Status_yes") or (req.get("result").get("action") == "checkout.order.status")):
         result = req.get("result")
         parameters = result.get("parameters")
@@ -76,6 +175,9 @@ def makeWebhookResult(req):
         
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
+        order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
+        print (str(order_json))
+        
         matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
         date = DateTime.now()
