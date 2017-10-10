@@ -69,15 +69,15 @@ def makeWebhookResult(req):
         
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         
-        order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
-        #print (str(order_json))
+        order_json = json.loads("["+rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]+"]")
+        print (str(order_json))
         
         temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
         elements = ""
         count = len(order_json["data"][0]["cartItems"])
             
         for mc in order_json["data"][0]["cartItems"]:
-            element = "{\"title\": " + "\"" + str(mc["data"][0]["cartItems"][0]["name"]) + "\"," + temp
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
             if(count != 1):
                 element = element + ","
                 count = count - 1
