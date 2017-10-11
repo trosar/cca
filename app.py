@@ -72,7 +72,7 @@ def makeWebhookResult(req):
         jdata = rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]
         jdata = jdata.replace("'", '"')
         print (jdata)
-        order_json = json.loads(jdata)
+        order_json = json.dumps(jdata)
         print (str(order_json))
         print (str(order_json["data"]["cartItems"]))
         
@@ -83,7 +83,7 @@ def makeWebhookResult(req):
         print (count)
             
         for mc in order_json["data"]["cartItems"]:
-            element = "{\"title\": " + "\"" + str(mc[0]["name"]) + "\"," + temp
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
             if(count != 1):
                 element = element + ","
                 count = count - 1
