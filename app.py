@@ -98,11 +98,12 @@ def makeWebhookResult(req):
                 if adj.get('value'):
                     adj_element = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + str(adj["value"]) + "}"
                 else:
-                    adj_element = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + 0.00 + "}"
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + 0 + "}"
                 if(adj_count != 1):
                     adj_element = adj_element + ","
                     adj_count = adj_count - 1
                 adj_elements = adj_elements + adj_element
+            print (adj_elements)
             adj_json = json.loads("["+adj_elements+"]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
