@@ -64,8 +64,8 @@ def makeWebhookResult(req):
     elif req.get("result").get("action") == "order_status_receipt":
         result = req.get("result")
         parameters = result.get("parameters")
-        zipcode = '19148'
-        ordernum = 'OJTW027678055'
+        zipcode = parameters.get("zipcode")
+        ordernum = parameters.get("order-number")
         
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         
