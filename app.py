@@ -74,7 +74,7 @@ def makeWebhookResult(req):
         temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
         elements = ""
         
-        count = len(jdata["data"])
+        count = len(jdata[0])
         print (count)
             
         for mc in jdata["data"][0]["cartItems"]:
