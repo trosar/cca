@@ -78,7 +78,7 @@ def makeWebhookResult(req):
         print (count)
             
         for mc in jdata:
-            element = "{\"title\": " + "\"" + str(mc[0]) + "\"," + temp
+            element = "{\"title\": " + "\"" + str(mc[0]["data"]) + "\"," + temp
             if(count != 1):
                 element = element + ","
                 count = count - 1
