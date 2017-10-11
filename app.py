@@ -97,9 +97,9 @@ def makeWebhookResult(req):
         if adj_count != 0:
             for adj in jdata["data"]["cartSummary"]["savings"]:
                 if adj.get('value'):
-                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("\\", "") + "\"," + "\"amount\": " + str(adj["value"]) + "}"
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("/", "") + "\"," + "\"amount\": " + str(adj["value"]) + "}"
                 else:
-                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("\\", "") + "\"," + "\"amount\": " + str(adj_zero) + "}"
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("/", "") + "\"," + "\"amount\": " + str(adj_zero) + "}"
                 if(adj_count != 1):
                     adj_element = adj_element + ","
                     adj_count = adj_count - 1
