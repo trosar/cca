@@ -106,6 +106,8 @@ def makeWebhookResult(req):
                 adj_elements = adj_elements + adj_element
             print (adj_elements)
             adj_json = json.loads("["+adj_elements+"]")
+        else:
+            adj_json = json.loads("[]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
