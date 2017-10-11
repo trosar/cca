@@ -71,7 +71,7 @@ def makeWebhookResult(req):
         
         order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         #print (str(order_json))
-        print (str(order_json["data"][0]["cartItems"]))
+        print (str(order_json["data"]["cartItems"]))
         
         temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
         elements = ""
