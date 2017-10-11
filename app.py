@@ -70,7 +70,8 @@ def makeWebhookResult(req):
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         
         jdata = rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]
-        jdata = jdata.replace('"', "'")
+        jdata = jdata.replace("'", '"')
+        print (jdata)
         order_json = json.loads(jdata)
         print (str(order_json))
         print (str(order_json["data"]["cartItems"]))
