@@ -91,11 +91,17 @@ def makeWebhookResult(req):
         total_cost = jdata["data"]["cartSummary"]["totalPostSvng"]
         
         #Order Adjustment Variabels
-        if len(jdata["data"]["cartSummary"]["savings"]) != 0:
+        adj_elements = ""
+        adj_count = len(jdata["data"]["cartSummary"]["savings"])
+        if adj_count != 0:
             for adj in jdata["data"]["cartSummary"]["savings"]:
                 if adj.get('value'):
-                    adj_elements = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + str(adj["value"]) + "}"
-            print (adj_elements)
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + str(adj["value"]) + "}"
+                if(adj_count != 1):
+                    adj_element = adj_element + ","
+                    adj_count = adj_count - 1
+                adj_elements = adj_elements + adj_element
+            adj_json = json.loads("["+adj_elements+"]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
@@ -124,14 +130,7 @@ def makeWebhookResult(req):
                                     "total_tax": total_tax,
                                     "total_cost": total_cost
                                 },
-                                "adjustments": [{
-                                    "name": "New Customer Discount",
-                                    "amount": 20
-                                },
-                                {
-                                    "name": "$10 Off Coupon",
-                                    "amount": 10
-                                }],
+                                "adjustments": adj_json,
                                 "elements": json_elements
                             }
                         }
