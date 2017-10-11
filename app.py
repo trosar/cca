@@ -71,28 +71,31 @@ def makeWebhookResult(req):
         
         jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
-        temp = "\"currency\":\"USD\",\"image_url\":\"http://www.shopjustice.com/is/image/justiceProdATG/8670487_671\"}"
+        #Order Item Variables
         elements = ""
-        
         count = len(jdata["data"]["cartItems"])
-        print (count)
-            
         for mc in jdata["data"]["cartItems"]:
             element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + "\"quantity\": " + str(mc["quantity"]) + "," + "\"price\": " + str(mc["totalPrice"]) + "," + "\"currency\":\"USD\"," + "\"image_url\": \"https:" + str(mc["imageURL"]) + "\"}"
             if(count != 1):
                 element = element + ","
                 count = count - 1
             elements = elements + element
-            
-        print (elements)
         json_elements = json.loads("["+elements+"]")
         
+        #Order Summary Variables
         subtotal = jdata["data"]["cartSummary"]["totalPreSvng"]
         shipping_cost = jdata["data"]["cartSummary"]["estmShipping"]
         if shipping_cost == 'FREE':
             shipping_cost = '0.0'
         total_tax = jdata["data"]["cartSummary"]["payment"]["taxesAndDuties"]
         total_cost = jdata["data"]["cartSummary"]["totalPostSvng"]
+        
+        #Order Adjustment Variabels
+        if len(jdata["data"]["cartSummary"]["savings"]) != 0:
+            for adj in jdata["data"]["cartSummary"]["savings"]:
+                if adj.get('value'):
+                    adj_elements = "{\"name\": " + "\"" + str(adj["message"]) + "\"," + "\"amount\": " + str(adj["value"]) + "}"
+            print (adj_elements)
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
