@@ -84,7 +84,8 @@ def makeWebhookResult(req):
                 count = count - 1
             elements = elements + element
             
-        json_elements = json.loads("["+elements+"]")
+        print (elements)
+        #json_elements = json.loads("["+elements+"]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
@@ -121,7 +122,7 @@ def makeWebhookResult(req):
                                     "name": "$10 Off Coupon",
                                     "amount": 10
                                 }],
-                                "elements": json_elements
+                                "elements": elements
                             }
                         }
                     }
