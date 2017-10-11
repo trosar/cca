@@ -71,7 +71,7 @@ def makeWebhookResult(req):
         
         jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
-        temp = "\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\"}"
+        temp = "\"currency\":\"USD\",\"image_url\":\"http://www.shopjustice.com/is/image/justiceProdATG/8670487_671\"}"
         elements = ""
         
         count = len(jdata["data"]["cartItems"])
@@ -86,6 +86,13 @@ def makeWebhookResult(req):
             
         print (elements)
         json_elements = json.loads("["+elements+"]")
+        
+        subtotal = jdata["data"]["cartSummary"]["totalPreSvng"]
+        shipping_cost = jdata["data"]["cartSummary"]["estmShipping"]
+        if shipping_cost == 'FREE':
+            shipping_cost = '0.0'
+        total_tax = jdata["data"]["cartSummary"]["payment"]["taxesAndDuties"]
+        total_cost = jdata["data"]["cartSummary"]["totalPostSvng"]
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
@@ -109,10 +116,10 @@ def makeWebhookResult(req):
                                     "country": "US"
                                 },
                                 "summary": {
-                                    "subtotal": 75.00,
-                                    "shipping_cost": 4.95,
-                                    "total_tax": 6.19,
-                                    "total_cost": 56.14
+                                    "subtotal": subtotal,
+                                    "shipping_cost": shipping_cost,
+                                    "total_tax": total_tax,
+                                    "total_cost": total_cost
                                 },
                                 "adjustments": [{
                                     "name": "New Customer Discount",
