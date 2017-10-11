@@ -71,7 +71,7 @@ def makeWebhookResult(req):
         
         jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
-        temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
+        temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\"}"
         elements = ""
         
         count = len(jdata["data"]["cartItems"])
@@ -85,7 +85,7 @@ def makeWebhookResult(req):
             elements = elements + element
             
         print (elements)
-        #json_elements = json.loads("["+elements+"]")
+        json_elements = json.loads("["+elements+"]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
@@ -122,7 +122,7 @@ def makeWebhookResult(req):
                                     "name": "$10 Off Coupon",
                                     "amount": 10
                                 }],
-                                "elements": elements
+                                "elements": json_elements
                             }
                         }
                     }
