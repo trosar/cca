@@ -71,14 +71,14 @@ def makeWebhookResult(req):
         
         jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
-        temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\"}"
+        temp = "\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\"}"
         elements = ""
         
         count = len(jdata["data"]["cartItems"])
         print (count)
             
         for mc in jdata["data"]["cartItems"]:
-            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + "\"quantity\": " + str(mc["quantity"]) + "," + temp
             if(count != 1):
                 element = element + ","
                 count = count - 1
