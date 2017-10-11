@@ -90,7 +90,7 @@ def makeWebhookResult(req):
         total_tax = jdata["data"]["cartSummary"]["payment"]["taxesAndDuties"]
         total_cost = jdata["data"]["cartSummary"]["totalPostSvng"]
         
-        #Order Adjustment Variabels
+        #Order Adjustment Variables
         adj_elements = ""
         adj_zero = 0
         adj_count = len(jdata["data"]["cartSummary"]["savings"])
