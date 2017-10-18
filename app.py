@@ -71,6 +71,45 @@ def makeWebhookResult(req):
         
         jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
+        #Order Status Details
+        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        date = DateTime.now()
+        present = DateTime.now()
+        
+        if len(matchObj) < 50:
+            print ("matchObj : ", matchObj)
+            print ("matchDate : ", matchDate)
+            status = matchObj
+            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
+        else:
+            status = "I couldn't find that order. Either the number or the zipcode is not correct."
+            print ("No match!!")
+            
+        if date >= present:
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
+        else:
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
+        #END Order Status Details
+        
         #Order Item Variables
         elements = ""
         count = len(jdata["data"]["cartItems"])
@@ -111,38 +150,48 @@ def makeWebhookResult(req):
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
-                "data": {
-                    "facebook": {
-                        "attachment": {
-                            "type": "template",
-                            "payload": {
-                                "template_type": "receipt",
-                                "recipient_name": "Stephane Crozatier",
-                                "order_number": ordernum,
-                                "currency": "USD",
-                                "payment_method": "Visa 2345",
-                                "timestamp": "1428444852",
-                                "address": {
-                                    "street_1": "1 Hacker Way",
-                                    "street_2": "",
-                                    "city": "Menlo Park",
-                                    "postal_code": "94025",
-                                    "state": "CA",
-                                    "country": "US"
-                                },
-                                "summary": {
-                                    "subtotal": subtotal,
-                                    "shipping_cost": shipping_cost,
-                                    "total_tax": total_tax,
-                                    "total_cost": total_cost
-                                },
-                                "adjustments": adj_json,
-                                "elements": json_elements
+                    "speech": "",
+                    "messages": [{
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": speech
+                    },
+                    {
+                        "type": 4,
+                        "platform": "facebook",
+                        "payload": {
+                            "facebook": {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload": {
+                                        "template_type": "receipt",
+                                        "recipient_name": "Harshit Sanghvi",
+                                        "order_number": ordernum,
+                                        "currency": "USD",
+                                        "payment_method": "Visa 2345",
+                                        "timestamp": "1428444852",
+                                        "address": {
+                                            "street_1": "1 Hacker Way",
+                                            "street_2": "",
+                                            "city": "Menlo Park",
+                                            "postal_code": "94025",
+                                            "state": "CA",
+                                            "country": "US"
+                                        },
+                                        "summary": {
+                                            "subtotal": subtotal,
+                                            "shipping_cost": shipping_cost,
+                                            "total_tax": total_tax,
+                                            "total_cost": total_cost
+                                        },
+                                        "adjustments": adj_json,
+                                        "elements": json_elements
+                                    }
+                                }
                             }
                         }
-                    }
+                    }]
                 }
-            }
         else:
             rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
             jdata = json.loads(rq.text)
