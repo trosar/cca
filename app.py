@@ -243,10 +243,13 @@ def makeWebhookResult(req):
         order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         print (str(order_json))
         
-        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchObj = rq.text[rq.text.find("order-status-label")+20:rq.text.find("<", rq.text.find("order-status-label"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
         date = DateTime.now()
         present = DateTime.now()
+        
+        print (str(matchObj))
+        print (str(matchDate))
         
         if len(matchObj) < 50:
             print ("matchObj : ", matchObj)
