@@ -64,69 +64,135 @@ def makeWebhookResult(req):
     elif req.get("result").get("action") == "order_status_receipt":
         result = req.get("result")
         parameters = result.get("parameters")
-        zipcode = '19148'
-        ordernum = 'OJTW027678055'
+        zipcode = parameters.get("zipcode")
+        ordernum = parameters.get("order-number")
         
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         
-        order_json = json.loads("["+rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))]+"]")
-        print (str(order_json))
+        jdata = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         
-        temp = "\"quantity\":1,\"price\":25,\"currency\":\"USD\",\"image_url\":\"http://petersapparel.parseapp.com/img/grayshirt.png\""
-        elements = ""
-        count = len(order_json[0]["cartItems"])
-        print (count)
+        #Order Status Details
+        matchObj = rq.text[rq.text.find("order-status-label")+20:rq.text.find("<", rq.text.find("order-status-label"))]
+        matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        matchDate = matchDate.strip().replace('\n', '').replace(' ','')
+        date = DateTime.now()
+        present = DateTime.now()
+        
+        if len(matchObj) < 50:
+            print ("matchObj : ", matchObj)
+            print ("matchDate : ", matchDate)
+            status = matchObj
+            date = DateTime.strptime(matchDate, '%m/%d/%Y') + TimeDelta(days=5)
+        else:
+            status = "I couldn't find that order. Either the number or the zipcode is not correct."
+            print ("No match!!")
             
-        for mc in order_json[0]["cartItems"]:
-            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + temp
+        if date >= present:
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should receive the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
+        else:
+            if status == 'Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Partially Shipped':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            elif status == 'Canceled':
+                speech = "Order status is " + status + ". Please reach out to the customer support for more details about the order."
+            elif status == 'Processing':
+                speech = "Order status is " + status + ". You should have received the package by " + date.strftime('%m/%d/%Y') + "."
+            else:
+                speech = status
+        #END Order Status Details
+        
+        #Order Item Variables
+        elements = ""
+        count = len(jdata["data"]["cartItems"])
+        for mc in jdata["data"]["cartItems"]:
+            element = "{\"title\": " + "\"" + str(mc["name"]) + "\"," + "\"quantity\": " + str(mc["quantity"]) + "," + "\"price\": " + str(mc["totalPrice"]) + "," + "\"currency\":\"USD\"," + "\"image_url\": \"https:" + str(mc["imageURL"]) + "\"}"
             if(count != 1):
                 element = element + ","
                 count = count - 1
             elements = elements + element
-            
         json_elements = json.loads("["+elements+"]")
+        
+        #Order Summary Variables
+        subtotal = jdata["data"]["cartSummary"]["totalPreSvng"]
+        shipping_cost = jdata["data"]["cartSummary"]["estmShipping"]
+        if shipping_cost == 'FREE':
+            shipping_cost = '0.0'
+        total_tax = jdata["data"]["cartSummary"]["payment"]["taxesAndDuties"]
+        total_cost = jdata["data"]["cartSummary"]["totalPostSvng"]
+        
+        #Order Adjustment Variables
+        adj_elements = ""
+        adj_zero = 0
+        adj_count = len(jdata["data"]["cartSummary"]["savings"])
+        if adj_count != 0:
+            for adj in jdata["data"]["cartSummary"]["savings"]:
+                if adj.get('value'):
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("[","").replace("]","") + "\"," + "\"amount\": " + str(int(float(adj["value"]))) + "}"
+                else:
+                    adj_element = "{\"name\": " + "\"" + str(adj["message"]).replace("[","").replace("]","") + "\"," + "\"amount\": " + str(adj_zero) + "}"
+                if(adj_count != 1):
+                    adj_element = adj_element + ","
+                    adj_count = adj_count - 1
+                adj_elements = adj_elements + adj_element
+            print (adj_elements)
+            adj_json = json.loads("["+adj_elements+"]")
+        else:
+            adj_json = json.loads("[]")
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
             return {
-                "data": {
-                    "facebook": {
-                        "attachment": {
-                            "type": "template",
-                            "payload": {
-                                "template_type": "receipt",
-                                "recipient_name": "Stephane Crozatier",
-                                "order_number": ordernum,
-                                "currency": "USD",
-                                "payment_method": "Visa 2345",
-                                "timestamp": "1428444852",
-                                "address": {
-                                    "street_1": "1 Hacker Way",
-                                    "street_2": "",
-                                    "city": "Menlo Park",
-                                    "postal_code": "94025",
-                                    "state": "CA",
-                                    "country": "US"
-                                },
-                                "summary": {
-                                    "subtotal": 75.00,
-                                    "shipping_cost": 4.95,
-                                    "total_tax": 6.19,
-                                    "total_cost": 56.14
-                                },
-                                "adjustments": [{
-                                    "name": "New Customer Discount",
-                                    "amount": 20
-                                },
-                                {
-                                    "name": "$10 Off Coupon",
-                                    "amount": 10
-                                }],
-                                "elements": json_elements
+                    "speech": "",
+                    "messages": [{
+                        "type": 0,
+                        "platform": "facebook",
+                        "speech": speech
+                    },
+                    {
+                        "type": 4,
+                        "platform": "facebook",
+                        "payload": {
+                            "facebook": {
+                                "attachment": {
+                                    "type": "template",
+                                    "payload": {
+                                        "template_type": "receipt",
+                                        "recipient_name": "Harshit Sanghvi",
+                                        "order_number": ordernum,
+                                        "currency": "USD",
+                                        "payment_method": "Visa 2345",
+                                        "timestamp": "1428444852",
+                                        "address": {
+                                            "street_1": "1 Hacker Way",
+                                            "street_2": "",
+                                            "city": "Menlo Park",
+                                            "postal_code": "94025",
+                                            "state": "CA",
+                                            "country": "US"
+                                        },
+                                        "summary": {
+                                            "subtotal": subtotal,
+                                            "shipping_cost": shipping_cost,
+                                            "total_tax": total_tax,
+                                            "total_cost": total_cost
+                                        },
+                                        "adjustments": adj_json,
+                                        "elements": json_elements
+                                    }
+                                }
                             }
                         }
-                    }
+                    }]
                 }
-            }
         else:
             rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
             jdata = json.loads(rq.text)
@@ -138,7 +204,7 @@ def makeWebhookResult(req):
         jdata = json.loads(rq.text)
         
         if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
-            temp = "\"image_url\": \"https://www.lanebryant.com/assets/images/lanebryant-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
+            temp = "\"image_url\": \"https://call-center-agent.herokuapp.com/static/lb-logo.png\",\"default_action\":{\"type\": \"web_url\",\"url\": \"http://www.lanebryant.com/\"}}"
             elements = ""
             count = len(jdata["MainContent"])
             
@@ -178,8 +244,10 @@ def makeWebhookResult(req):
         order_json = json.loads(rq.text[rq.text.find("cart-json")+35:rq.text.find("<", rq.text.find("cart-json"))])
         print (str(order_json))
         
-        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchObj = rq.text[rq.text.find("order-status-label")+20:rq.text.find("<", rq.text.find("order-status-label"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        matchDate = matchDate.strip().replace('\n', '').replace(' ','')
+        
         date = DateTime.now()
         present = DateTime.now()
         
@@ -233,8 +301,9 @@ def makeWebhookResult(req):
             
         rq = requests.post("https://www.shopjustice.com/justice/homepage/includes/order-response-html.jsp", data={'orderNum': ordernum, 'billingZip': zipcode, 'Action': 'fetchODDetails'})
         #print rq.text
-        matchObj = rq.text[rq.text.find("mar-status")+12:rq.text.find("<", rq.text.find("mar-status"))]
+        matchObj = rq.text[rq.text.find("order-status-label")+20:rq.text.find("<", rq.text.find("order-status-label"))]
         matchDate = rq.text[rq.text.find("mar-date")+10:rq.text.find("<", rq.text.find("mar-date"))]
+        matchDate = matchDate.strip().replace('\n', '').replace(' ','')
         date = DateTime.now()
         present = DateTime.now()
         
