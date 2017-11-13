@@ -61,6 +61,33 @@ def makeWebhookResult(req):
             rq = requests.get("http://www.lanebryant.com/lanebryant/search?Ntt=" + color + " " + cat + "&format=JSON")
             jdata = json.loads(rq.text)
             speech = "I found " + str(jdata["contents"][0]["MainContent"][0]["MainContent"][0]["contents"][0]["totalNumRecs"]) + " " + color + " " + cat + " products." 
+    elif req.get("result").get("action") == "promo_sign_up":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        #color = parameters.get("color")
+        #cat = parameters.get("catalog-category")
+        if ((req.get("originalRequest") is not None) and (req.get("originalRequest").get("source") == "facebook")):
+            return {
+                "data": {
+                    "facebook": {
+                        "text": "Pick a color:",
+                        "quick_replies": [
+                            {
+                                "content_type": "text",
+                                "title": "Red",
+                                "payload": "red"
+                            },
+                            {
+                                "content_type": "text",
+                                "title": "Green",
+                                "payload": "green"
+                            }
+                        ]
+                    }
+                }
+            }
+        else:
+            speech = "I found products."
     elif req.get("result").get("action") == "order_status_receipt":
         result = req.get("result")
         parameters = result.get("parameters")
